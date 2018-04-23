@@ -1,0 +1,21 @@
+﻿.categoryTable {
+    width: 100%;
+}
+
+    .categoryTable .imageCell {
+        padding: 2px;
+    }
+
+    .categoryTable .textCell {
+        padding-left: 20px;
+        width: 100%;
+    }
+
+.textCell .label {
+    color: #969696;
+}
+
+.textCell .description {
+    font-size: 13px;
+    width: 230px;
+}

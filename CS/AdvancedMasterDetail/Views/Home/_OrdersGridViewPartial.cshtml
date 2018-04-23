@@ -1,0 +1,83 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "OrdersGridView" + ViewData["orderKey"];
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "OrdersGridViewPartial", key = ViewData["orderKey"] };
+
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "OrdersGridViewPartialAddNew", key = ViewData["orderKey"] };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "OrdersGridViewPartialUpdate", key = ViewData["orderKey"] };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "OrdersGridViewPartialDelete", key = ViewData["orderKey"] };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        settings.CommandColumn.ShowClearFilterButton = true;
+        
+        //uncomment the below lines to enable CRUD opeartions 
+
+        //settings.CommandColumn.Visible = true;
+        //settings.CommandColumn.ShowNewButtonInHeader = true;
+        //settings.CommandColumn.ShowDeleteButton = true;
+        //settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "OrderID";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = true;
+        settings.Settings.ShowFilterRow = true;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+        settings.Settings.ShowFooter = true;
+
+        settings.Columns.Add("OrderID").EditFormSettings.Visible = DefaultBoolean.False;
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "UnitPrice";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            SpinEditProperties p = column.PropertiesEdit as SpinEditProperties;
+            p.DisplayFormatInEditMode = true;
+            p.DecimalPlaces = 2;
+            p.DisplayFormatString = "c";
+
+        });
+        settings.Columns.Add(column => {
+            column.FieldName = "Quantity";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            SpinEditProperties p = column.PropertiesEdit as SpinEditProperties;            
+            p.DecimalPlaces = 0;
+            p.NumberType = SpinEditNumberType.Integer;
+            
+        
+        });
+        settings.Columns.Add(column => {
+            column.FieldName = "Discount";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            SpinEditProperties p = column.PropertiesEdit as SpinEditProperties;
+            p.DisplayFormatInEditMode = true;
+            p.DisplayFormatString = "N2";
+            p.DecimalPlaces = 2;
+        
+        });
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "Total";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            column.EditFormSettings.Visible = DefaultBoolean.False;
+            column.UnboundType = DevExpress.Data.UnboundColumnType.Decimal;
+            SpinEditProperties p = column.PropertiesEdit as SpinEditProperties;     
+            p.DisplayFormatInEditMode = true;
+            p.DecimalPlaces = 2;
+            p.DisplayFormatString = "c";            
+            column.UnboundExpression = "[Quantity] * [UnitPrice] * (1 - [Discount])";
+        });
+        settings.TotalSummary.Add(new ASPxSummaryItem() { SummaryType = DevExpress.Data.SummaryItemType.Sum, FieldName = "Total" });
+
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+        };
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

@@ -1,0 +1,23 @@
+﻿@model AdvancedMasterDetail.Models.Supplier
+
+    @Html.DevExpress().PageControl(settings =>
+{
+    settings.Name = "PageControl" + ViewData["key"];
+    settings.Width = Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "Home", Action = "PageControlPartial", key = ViewData["key"] };
+    settings.TabPages.Add("Products").SetContent(() =>
+    {
+        Html.RenderAction("ProductsGridViewPartial", new { key = Model.SupplierID });
+
+    });
+    settings.TabPages.Add("Categories").SetContent(() =>
+    {
+        Html.RenderAction("CategoryGridViewPartial", new { key = Model.SupplierID });
+
+    });
+    settings.TabPages.Add("Address").SetContent(() =>
+    {
+        Html.RenderPartial("DetailInformation");
+    });
+}).GetHtml()
+

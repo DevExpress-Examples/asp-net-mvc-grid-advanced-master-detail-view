@@ -1,0 +1,58 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "MasterGridView";
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "MasterGridViewPartial", test = ViewBag.Test };
+        settings.Width = 800;
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "MasterGridViewPartialAddNew"};
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "MasterGridViewPartialUpdate" };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "MasterGridViewPartialDelete" };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        
+        //uncomment the below lines to enable CRUD opeartions 
+        //settings.CommandColumn.Visible = true;
+        //settings.CommandColumn.ShowNewButtonInHeader = true;
+        //settings.CommandColumn.ShowDeleteButton = true;
+        //settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "SupplierID";
+       
+        settings.SettingsDetail.ShowDetailButtons = true;
+        settings.SettingsDetail.ShowDetailRow = true;
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "SupplierID";            
+            col.EditFormSettings.Visible = DefaultBoolean.False;
+        });
+        
+        settings.Columns.Add("CompanyName");
+        settings.Columns.Add("ContactName");
+        settings.Columns.Add("City");
+        settings.Columns.Add("Country");
+        
+        settings.SetDetailRowTemplateContent(container =>
+        {
+            var keyValue = container.KeyValue;
+            ViewContext.Writer.Write("<div style='padding: 3px 3px 2px 3px'>");
+            Html.RenderAction("PageControlPartial", new { key = keyValue });
+            ViewContext.Writer.Write("</div>");
+        });
+       
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+        };
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

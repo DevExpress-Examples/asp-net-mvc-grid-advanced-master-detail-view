@@ -1,0 +1,18 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "CategoryGridView" + ViewData["categoryKey"];
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "CategoryGridViewPartial", key = ViewData["categoryKey"] };
+        settings.Width = Unit.Percentage(100);
+        settings.Columns.Add("CategoryName");
+        settings.Columns.Add("Description");      
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+        settings.SetDataRowTemplateContent(container => {
+            Html.RenderPartial("CategoryRow", container.DataItem);        
+        });
+    });
+}
+@grid.Bind(Model).GetHtml()

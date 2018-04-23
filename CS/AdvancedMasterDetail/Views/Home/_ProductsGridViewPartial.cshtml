@@ -1,0 +1,85 @@
+@{
+    var grid = Html.DevExpress().GridView(settings =>
+    {
+        settings.Name = "ProductsGridView" + ViewData["productKey"];
+        settings.CallbackRouteValues = new { Controller = "Home", Action = "ProductsGridViewPartial", key = ViewData["productKey"] };
+        settings.Width = Unit.Percentage(100);
+        settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "Home", Action = "ProductsGridViewPartialAddNew", key = ViewData["productKey"] };
+        settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "Home", Action = "ProductsGridViewPartialUpdate", key = ViewData["productKey"] };
+        settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "Home", Action = "ProductsGridViewPartialDelete", key = ViewData["productKey"] };
+        settings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        settings.SettingsBehavior.ConfirmDelete = true;
+        
+        //uncomment the below lines to enable CRUD opeartions 
+
+        //settings.CommandColumn.Visible = true;
+        //settings.CommandColumn.ShowNewButtonInHeader = true;
+        //settings.CommandColumn.ShowDeleteButton = true;
+        //settings.CommandColumn.ShowEditButton = true;
+
+        settings.KeyFieldName = "ProductID";
+
+        settings.SettingsPager.Visible = true;
+        settings.Settings.ShowGroupPanel = false;
+        settings.Settings.ShowFilterRow = false;
+        settings.SettingsBehavior.AllowSelectByRowClick = false;
+        settings.SettingsDetail.ShowDetailRow = true;
+        settings.SettingsDetail.ShowDetailButtons = true;
+        settings.Settings.ShowFooter = true;
+      
+        settings.Columns.Add(col =>
+        {
+            col.FieldName = "ProductID";
+            col.EditFormSettings.Visible = DefaultBoolean.False;
+        });
+        settings.Columns.Add("ProductName");
+        settings.Columns.Add(column => {
+            column.FieldName = "UnitPrice";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            SpinEditProperties p = column.PropertiesEdit as SpinEditProperties;
+            p.DisplayFormatInEditMode = true;
+            p.DisplayFormatString = "c";
+            p.DecimalPlaces = 2;
+            
+        });
+        settings.Columns.Add(column => {
+            column.FieldName = "UnitsInStock";
+            column.ColumnType = MVCxGridViewColumnType.SpinEdit;
+            SpinEditProperties p = column.PropertiesEdit as SpinEditProperties;
+            p.DisplayFormatInEditMode = true;
+            p.DisplayFormatString = "N2";
+            p.DecimalPlaces = 2;
+        });
+        settings.Columns.Add(column => {
+            column.FieldName = "Discontinued";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        
+        });
+        settings.Columns.Add(column => {
+            column.FieldName = "Category.CategoryID";
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            ComboBoxProperties cbp =  column.PropertiesEdit as ComboBoxProperties;
+            cbp.DataSource = AdvancedMasterDetail.Controllers.HomeController.GetCategories();
+            cbp.TextField = "CategoryName";
+            cbp.ValueField = "CategoryID";
+            cbp.ValueType = typeof(int);
+        });
+        settings.TotalSummary.Add(new ASPxSummaryItem() { SummaryType = DevExpress.Data.SummaryItemType.Sum, FieldName = "UnitsInStock" });
+        settings.TotalSummary.Add(new ASPxSummaryItem() { SummaryType = DevExpress.Data.SummaryItemType.Average, FieldName = "UnitPrice" });
+        settings.SetDetailRowTemplateContent(container =>
+        {
+            var keyValue = container.KeyValue;
+            Html.RenderAction("OrdersGridViewPartial", new { key = keyValue });
+        });
+        settings.CellEditorInitialize = (s, e) =>
+        {
+            ASPxEdit editor = (ASPxEdit)e.Editor;
+            editor.ValidationSettings.Display = Display.Dynamic;
+        };
+    });
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
