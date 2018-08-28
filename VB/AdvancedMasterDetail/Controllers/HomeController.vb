@@ -29,42 +29,42 @@ Namespace AdvancedMasterDetail.Controllers
 			Dim model = context.Suppliers.Where(Function(item) item.SupplierID = key).FirstOrDefault()
 			Return PartialView("DetailPageControl", model)
 		End Function
-		<HttpPost, ValidateInput(False)> _
-		Public Function MasterGridViewPartialAddNew(ByVal item As AdvancedMasterDetail.Models.Supplier) As ActionResult
-			Dim model = context.Suppliers
-			If ModelState.IsValid Then
-				Try
-					' Insert here a code to insert the new item in your model
-					context.Suppliers.InsertOnSubmit(item)
-					context.SubmitChanges()
-				Catch e As Exception
-					ViewData("EditError") = e.Message
-				End Try
-			Else
-				ViewData("EditError") = "Please, correct all errors."
-			End If
-			Return PartialView("_MasterGridViewPartial", model)
-		End Function
-		<HttpPost, ValidateInput(False)> _
-		Public Function MasterGridViewPartialUpdate(ByVal item As AdvancedMasterDetail.Models.Supplier) As ActionResult
-			Dim model = context.Suppliers
-			If ModelState.IsValid Then
-				Try
-					Dim existingItem = context.Suppliers.Where(Function(x) x.SupplierID.Equals(item.SupplierID)).FirstOrDefault()
-					existingItem.CompanyName = item.CompanyName
-					existingItem.ContactName = item.ContactName
-					existingItem.Country = item.Country
-					existingItem.City = item.City
-					context.SubmitChanges()
-				Catch e As Exception
-					ViewData("EditError") = e.Message
-				End Try
-			Else
-				ViewData("EditError") = "Please, correct all errors."
-			End If
-			Return PartialView("_MasterGridViewPartial", model)
-		End Function
-		<HttpPost, ValidateInput(False)> _
+        <HttpPost, ValidateInput(False)>
+        Public Function MasterGridViewPartialAddNew(ByVal item As Supplier) As ActionResult
+            Dim model = context.Suppliers
+            If ModelState.IsValid Then
+                Try
+                    ' Insert here a code to insert the new item in your model
+                    context.Suppliers.InsertOnSubmit(item)
+                    context.SubmitChanges()
+                Catch e As Exception
+                    ViewData("EditError") = e.Message
+                End Try
+            Else
+                ViewData("EditError") = "Please, correct all errors."
+            End If
+            Return PartialView("_MasterGridViewPartial", model)
+        End Function
+        <HttpPost, ValidateInput(False)>
+        Public Function MasterGridViewPartialUpdate(ByVal item As Supplier) As ActionResult
+            Dim model = context.Suppliers
+            If ModelState.IsValid Then
+                Try
+                    Dim existingItem = context.Suppliers.Where(Function(x) x.SupplierID.Equals(item.SupplierID)).FirstOrDefault()
+                    existingItem.CompanyName = item.CompanyName
+                    existingItem.ContactName = item.ContactName
+                    existingItem.Country = item.Country
+                    existingItem.City = item.City
+                    context.SubmitChanges()
+                Catch e As Exception
+                    ViewData("EditError") = e.Message
+                End Try
+            Else
+                ViewData("EditError") = "Please, correct all errors."
+            End If
+            Return PartialView("_MasterGridViewPartial", model)
+        End Function
+        <HttpPost, ValidateInput(False)> _
 		Public Function MasterGridViewPartialDelete(ByVal SupplierID As System.Int32) As ActionResult
 			Dim model = context.Suppliers
 			If SupplierID >= 0 Then
@@ -89,48 +89,48 @@ Namespace AdvancedMasterDetail.Controllers
 			Return PartialView("_ProductsGridViewPartial", model)
 		End Function
 
-		<HttpPost, ValidateInput(False)> _
-		Public Function ProductsGridViewPartialAddNew(ByVal item As AdvancedMasterDetail.Models.Product, ByVal key As Integer) As ActionResult
-			Dim model = context.Products
-			ViewData("productKey") = key
-			If ModelState.IsValid Then
-				Try
-					item.SupplierID = key
-					item.Supplier = context.Suppliers.Where(Function(x) x.SupplierID = key).FirstOrDefault()
-					item.Category = context.Categories.Where(Function(category) category.CategoryID.Equals(item.CategoryID)).FirstOrDefault()
-					model.InsertOnSubmit(item)
-					context.SubmitChanges()
-				Catch e As Exception
-					ViewData("EditError") = e.Message
-				End Try
-			Else
-				ViewData("EditError") = "Please, correct all errors."
-			End If
-			Dim querymodel = context.Products.Where(Function(it) it.SupplierID = key)
-			Return PartialView("_ProductsGridViewPartial", querymodel)
-		End Function
-		<HttpPost, ValidateInput(False)> _
-		Public Function ProductsGridViewPartialUpdate(ByVal item As AdvancedMasterDetail.Models.Product, ByVal key As Integer) As ActionResult
+        <HttpPost, ValidateInput(False)>
+        Public Function ProductsGridViewPartialAddNew(ByVal item As Product, ByVal key As Integer) As ActionResult
+            Dim model = context.Products
+            ViewData("productKey") = key
+            If ModelState.IsValid Then
+                Try
+                    item.SupplierID = key
+                    item.Supplier = context.Suppliers.Where(Function(x) x.SupplierID = key).FirstOrDefault()
+                    item.Category = context.Categories.Where(Function(category) category.CategoryID.Equals(item.CategoryID)).FirstOrDefault()
+                    model.InsertOnSubmit(item)
+                    context.SubmitChanges()
+                Catch e As Exception
+                    ViewData("EditError") = e.Message
+                End Try
+            Else
+                ViewData("EditError") = "Please, correct all errors."
+            End If
+            Dim querymodel = context.Products.Where(Function(it) it.SupplierID = key)
+            Return PartialView("_ProductsGridViewPartial", querymodel)
+        End Function
+        <HttpPost, ValidateInput(False)>
+        Public Function ProductsGridViewPartialUpdate(ByVal item As Product, ByVal key As Integer) As ActionResult
 
-			Dim model = context.Products
-			ViewData("productKey") = key
-			If ModelState.IsValid Then
-				Try
-					Dim modelItem = model.FirstOrDefault(Function(it) it.ProductID = item.ProductID)
-					If modelItem IsNot Nothing Then
-						Me.UpdateModel(modelItem)
-						context.SubmitChanges()
-					End If
-				Catch e As Exception
-					ViewData("EditError") = e.Message
-				End Try
-			Else
-				ViewData("EditError") = "Please, correct all errors."
-			End If
-			Dim querymodel = context.Products.Where(Function(it) it.SupplierID = key)
-			Return PartialView("_ProductsGridViewPartial", querymodel)
-		End Function
-		<HttpPost, ValidateInput(False)> _
+            Dim model = context.Products
+            ViewData("productKey") = key
+            If ModelState.IsValid Then
+                Try
+                    Dim modelItem = model.FirstOrDefault(Function(it) it.ProductID = item.ProductID)
+                    If modelItem IsNot Nothing Then
+                        Me.UpdateModel(modelItem)
+                        context.SubmitChanges()
+                    End If
+                Catch e As Exception
+                    ViewData("EditError") = e.Message
+                End Try
+            Else
+                ViewData("EditError") = "Please, correct all errors."
+            End If
+            Dim querymodel = context.Products.Where(Function(it) it.SupplierID = key)
+            Return PartialView("_ProductsGridViewPartial", querymodel)
+        End Function
+        <HttpPost, ValidateInput(False)> _
 		Public Function ProductsGridViewPartialDelete(ByVal ProductID As System.Int32, ByVal key As Integer) As ActionResult
 
 			Dim model = context.Products
@@ -173,48 +173,48 @@ Namespace AdvancedMasterDetail.Controllers
 			Return PartialView("_OrdersGridViewPartial", model)
 		End Function
 
-		<HttpPost, ValidateInput(False)> _
-		Public Function OrdersGridViewPartialAddNew(ByVal item As AdvancedMasterDetail.Models.Order_Detail, ByVal key As Integer) As ActionResult
-			Dim model = context.Order_Details
-			ViewData("orderKey") = key
-			If ModelState.IsValid Then
-				Try
-					item.ProductID = key
-					item.Product = context.Products.Where(Function(productItem) productItem.ProductID = key).FirstOrDefault()
-					model.InsertOnSubmit(item)
-					context.SubmitChanges()
-				Catch e As Exception
-					ViewData("EditError") = e.Message
-				End Try
-			Else
-				ViewData("EditError") = "Please, correct all errors."
-			End If
-			Dim querymodel = context.Order_Details.Where(Function(order) order.ProductID = key)
+        <HttpPost, ValidateInput(False)>
+        Public Function OrdersGridViewPartialAddNew(ByVal item As Order_Detail, ByVal key As Integer) As ActionResult
+            Dim model = context.Order_Details
+            ViewData("orderKey") = key
+            If ModelState.IsValid Then
+                Try
+                    item.ProductID = key
+                    item.Product = context.Products.Where(Function(productItem) productItem.ProductID = key).FirstOrDefault()
+                    model.InsertOnSubmit(item)
+                    context.SubmitChanges()
+                Catch e As Exception
+                    ViewData("EditError") = e.Message
+                End Try
+            Else
+                ViewData("EditError") = "Please, correct all errors."
+            End If
+            Dim querymodel = context.Order_Details.Where(Function(order) order.ProductID = key)
 
-			Return PartialView("_OrdersGridViewPartial", querymodel)
-		End Function
-		<HttpPost, ValidateInput(False)> _
-		Public Function OrdersGridViewPartialUpdate(ByVal item As AdvancedMasterDetail.Models.Order_Detail, ByVal key As Integer) As ActionResult
-			Dim model = context.Order_Details
-			ViewData("orderKey") = key
-			If ModelState.IsValid Then
-				Try
-					Dim modelItem = model.FirstOrDefault(Function(it) it.OrderID = item.OrderID)
-					If modelItem IsNot Nothing Then
-						Me.UpdateModel(modelItem)
-						context.SubmitChanges()
-					End If
-				Catch e As Exception
-					ViewData("EditError") = e.Message
-				End Try
-			Else
-				ViewData("EditError") = "Please, correct all errors."
-			End If
+            Return PartialView("_OrdersGridViewPartial", querymodel)
+        End Function
+        <HttpPost, ValidateInput(False)>
+        Public Function OrdersGridViewPartialUpdate(ByVal item As Order_Detail, ByVal key As Integer) As ActionResult
+            Dim model = context.Order_Details
+            ViewData("orderKey") = key
+            If ModelState.IsValid Then
+                Try
+                    Dim modelItem = model.FirstOrDefault(Function(it) it.OrderID = item.OrderID)
+                    If modelItem IsNot Nothing Then
+                        Me.UpdateModel(modelItem)
+                        context.SubmitChanges()
+                    End If
+                Catch e As Exception
+                    ViewData("EditError") = e.Message
+                End Try
+            Else
+                ViewData("EditError") = "Please, correct all errors."
+            End If
 
-			Dim querymodel = context.Order_Details.Where(Function(order) order.ProductID = key)
-			Return PartialView("_OrdersGridViewPartial", querymodel)
-		End Function
-		<HttpPost, ValidateInput(False)> _
+            Dim querymodel = context.Order_Details.Where(Function(order) order.ProductID = key)
+            Return PartialView("_OrdersGridViewPartial", querymodel)
+        End Function
+        <HttpPost, ValidateInput(False)> _
 		Public Function OrdersGridViewPartialDelete(ByVal OrderID As System.Int32, ByVal key As Integer) As ActionResult
 			Dim model = context.Order_Details
 			ViewData("orderKey") = key

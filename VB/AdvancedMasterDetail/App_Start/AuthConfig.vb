@@ -1,6 +1,5 @@
 Imports Microsoft.VisualBasic
 Imports System
-Imports Microsoft.Web.WebPages.OAuth
 
 Namespace AdvancedMasterDetail
 	Public NotInheritable Class AuthConfig
