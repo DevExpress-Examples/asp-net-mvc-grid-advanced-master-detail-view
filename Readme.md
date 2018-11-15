@@ -1,3 +1,16 @@
+<!-- default file list -->
+*Files to look at*:
+
+* **[HomeController.cs](./CS/AdvancedMasterDetail/Controllers/HomeController.cs) (VB: [HomeController.vb](./VB/AdvancedMasterDetail/Controllers/HomeController.vb))**
+* [_CategoryGridViewPartial.cshtml](./CS/AdvancedMasterDetail/Views/Home/_CategoryGridViewPartial.cshtml)
+* [_MasterGridViewPartial.cshtml](./CS/AdvancedMasterDetail/Views/Home/_MasterGridViewPartial.cshtml)
+* [_OrdersGridViewPartial.cshtml](./CS/AdvancedMasterDetail/Views/Home/_OrdersGridViewPartial.cshtml)
+* [_ProductsGridViewPartial.cshtml](./CS/AdvancedMasterDetail/Views/Home/_ProductsGridViewPartial.cshtml)
+* [CategoryRow.cshtml](./CS/AdvancedMasterDetail/Views/Home/CategoryRow.cshtml)
+* [DetailInformation.cshtml](./CS/AdvancedMasterDetail/Views/Home/DetailInformation.cshtml)
+* [DetailPageControl.cshtml](./CS/AdvancedMasterDetail/Views/Home/DetailPageControl.cshtml)
+* [Index.cshtml](./CS/AdvancedMasterDetail/Views/Home/Index.cshtml)
+<!-- default file list end -->
 # GridView - Advanced Master-Detail View
 
 
