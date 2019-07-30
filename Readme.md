@@ -13,7 +13,7 @@
 <!-- default file list end -->
 # GridView - Advanced Master-Detail View
 <!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/t203289)**
+**[[Run Online]](https://codecentral.devexpress.com/t203289/)**
 <!-- run online end -->
 
 
