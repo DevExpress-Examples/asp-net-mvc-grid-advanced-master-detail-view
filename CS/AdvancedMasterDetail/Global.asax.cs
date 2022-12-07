@@ -24,7 +24,7 @@ namespace AdvancedMasterDetail
             
             ModelBinders.Binders.DefaultBinder = new DevExpress.Web.Mvc.DevExpressEditorsBinder();
 
-            DevExpress.Web.ASPxClasses.ASPxWebControl.CallbackError += Application_Error;
+            DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
         }
 
         protected void Application_Error(object sender, EventArgs e) 

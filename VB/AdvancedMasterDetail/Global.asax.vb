@@ -23,7 +23,7 @@ Namespace AdvancedMasterDetail
 
 			ModelBinders.Binders.DefaultBinder = New DevExpress.Web.Mvc.DevExpressEditorsBinder()
 
-			AddHandler DevExpress.Web.ASPxClasses.ASPxWebControl.CallbackError, AddressOf Application_Error
+			AddHandler DevExpress.Web.ASPxWebControl.CallbackError, AddressOf Application_Error
 		End Sub
 
 		Protected Sub Application_Error(ByVal sender As Object, ByVal e As EventArgs)
