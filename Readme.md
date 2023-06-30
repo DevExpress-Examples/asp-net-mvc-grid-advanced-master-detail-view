@@ -5,7 +5,7 @@
 <!-- default badges end -->
 # Grid View for ASP.NET MVC - Advanced master-detail view
 <!-- run online -->
-**[[Run Online]](https://codecentral.devexpress.com/t203289/)**
+**[[Run Online]](https://codecentral.devexpress.com/128549498/)**
 <!-- run online end -->
 
 This example demonstrates how to use a page control in a detail row template to switch between detail grids.
